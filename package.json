@@ -20,13 +20,15 @@
     "concurrently": "^5.0.0",
     "electron": "^6.0.12",
     "electron-builder": "^21.2.0",
+    "electron-is-dev": "^1.1.0",
     "electron-reload": "^1.5.0",
-    "parcel-bundler": "^1.12.4",
-    "electron-is-dev": "^1.1.0"
+    "parcel-bundler": "^1.12.4"
   },
   "dependencies": {
+    "open-in-editor": "^2.2.0",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
+    "sane": "^4.1.0",
     "styled-components": "^4.4.0"
   }
 }
