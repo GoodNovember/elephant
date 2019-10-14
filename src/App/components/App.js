@@ -10,8 +10,7 @@ const defaultFile = `/Users/victor/Desktop/demo.php`
 const AppHolder = styled.div`
 display: flex;
 flex-direction: column;
-border: 1px solid black;
-height: 100vh;
+border: 1rem solid black;
 `
 
 export const App = () => {
