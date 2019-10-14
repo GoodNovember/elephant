@@ -11,6 +11,8 @@ const AppHolder = styled.div`
 display: flex;
 flex-direction: column;
 border: 1rem solid black;
+min-height: 100vh;
+box-sizing: border-box;
 `
 
 export const App = () => {

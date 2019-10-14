@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import styled from 'styled-components'
 
@@ -72,6 +72,7 @@ const StylishCommandError = styled.div`
 
 const StylishRenderableHTML = styled.div`
   border: 1px solid black;
+  padding: 0 1rem;
 `
 
 const StylishPHPVersion = styled.div`
@@ -83,8 +84,18 @@ const StylishPHPVersion = styled.div`
   margin: .5rem;
 `
 
+const StylishCommand = styled.div`
+  font-family: monospace;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-x: auto;
+  flex-shrink: 0;
+  margin: .5rem;
+`
+
 export const PHPFileInspector = ({ targetFile }) => {
   const [ ts, triggerTS ] = useTimestampTrigger()
+  const [ argumentString, setArgumentString ] = useState('')
   const openInEditor = useOpenInEditorTrigger(targetFile)
   const phpVersion = usePHPVersion()
 
@@ -92,8 +103,9 @@ export const PHPFileInspector = ({ targetFile }) => {
   const {
     errors,
     stdout,
-    stderr
-  } = usePHPStream(targetFile, ts)
+    stderr,
+    command
+  } = usePHPStream(targetFile, argumentString, ts)
 
   const isWatching = useFileWatcher(targetFile,
     (filename, root, stat) => {
@@ -110,10 +122,33 @@ export const PHPFileInspector = ({ targetFile }) => {
       </StylishWindowPane>
       <StylishWindowPane>
         <pre>{isWatching ? `Watching For Changes` : 'Waking Up...'}</pre>
+        <h3>Arguments</h3>
+        <input type='text' value={argumentString} onChange={(event) => {
+          setArgumentString(`${event.target.value}`)
+        }} />
         <pre>TargetFile: {targetFile}</pre>
-        <StylishCommandError>{errors}</StylishCommandError>
-        <h3>Standard Error <small>(from the console)</small></h3>
-        <StylishStandardError>{stderr}</StylishStandardError>
+        <h3>Console Command</h3>
+        <StylishCommand>{command}</StylishCommand>
+        {
+          errors.length > 0
+            ? (
+              <div>
+                <h3>Elephant Runtime Error</h3>
+                <StylishCommandError>{errors}</StylishCommandError>
+              </div>
+            )
+            : null
+        }
+        {
+          stderr.length > 0
+            ? (
+              <div>
+                <h3>Standard Error <small>(from the console)</small></h3>
+                <StylishStandardError>{stderr}</StylishStandardError>
+              </div>
+            )
+            : null
+        }
         <h3>Standard Out <small>(from the console)</small></h3>
         <StylishStandardOutput>{stdout}</StylishStandardOutput>
         <h3>HTML <small>(converted Standard Out)</small></h3>
