@@ -71,8 +71,8 @@ const StylishCommandError = styled.div`
 `
 
 const StylishRenderableHTML = styled.div`
-  border: 1px solid black;
-  padding: 0 1rem;
+  /* border: 1px solid rgba(0,0,0,.125); */
+  box-shadow: 0 0 10rem 1rem rgba(0,0,0,.25);
 `
 
 const StylishPHPVersion = styled.div`
