@@ -11,6 +11,10 @@ import { useTimestampTrigger } from '../hooks/useTimestampTrigger.js'
 import { usePHPVersion } from '../hooks/usePHPVersion.js'
 import { useOpenInEditorTrigger } from '../hooks/useOpenInEditorTrigger.js'
 
+import AceEditor from 'react-ace'
+import 'ace-builds/src-noconflict/mode-php'
+import 'ace-builds/src-noconflict/theme-github'
+
 const SplitWindow = styled.div`
   display: flex;
 `
@@ -18,17 +22,15 @@ const SplitWindow = styled.div`
 const StylishWindowPane = styled.div`
   display: flex;
   flex-direction: column;
-  overflow: auto;
   width: 50%;
   height: 100%;
   padding: 1rem;
 `
 
-const StylishFile = styled.div`
-  display: flex;
-  padding: 0 1rem;
-  flex-direction: column;
+const StylishFile = styled(AceEditor)`
   border: 1px solid blue;
+  font-family: 'dank mono';
+  font-size: 1rem;
 `
 
 const StylishStandardOutput = styled.div`
@@ -38,7 +40,7 @@ const StylishStandardOutput = styled.div`
   flex-direction: column;
   border: 1px solid green;
   font-family: monospace;
-  white-space: 'pre';
+  white-space: pre-wrap;
   overflow: auto;
 }
 `
@@ -51,7 +53,7 @@ const StylishStandardError = styled.div`
   border: 1px solid red;
   font-family: monospace;
   color: red;
-  white-space: pre;
+  white-space: pre-wrap;
   overflow: auto;
 }
 `
@@ -60,7 +62,7 @@ const StylishCommandError = styled.div`
 :not(:empty){
   padding: 1rem;
   border: 1px solid red;
-  white-space: pre;
+  white-space: pre-wrap;
   color: red;
   font-family: monospace;
   /* word-wrap: break-word; */
@@ -74,7 +76,7 @@ const StylishRenderableHTML = styled.div`
 
 const StylishPHPVersion = styled.div`
   font-family: monospace;
-  white-space: pre;
+  white-space: pre-wrap;
   word-wrap: break-word;
   overflow-x: auto;
   flex-shrink: 0;
@@ -103,9 +105,7 @@ export const PHPFileInspector = ({ targetFile }) => {
     <SplitWindow>
       <StylishWindowPane>
         <StylishPHPVersion>{phpVersion}</StylishPHPVersion>
-        <StylishFile>
-          <pre>{fileContent}</pre>
-        </StylishFile>
+        <StylishFile value={fileContent} mode='php' theme='github' width='100%' readOnly='true' />
         <FancyButton onClick={openInEditor}>Open File in Editor</FancyButton>
       </StylishWindowPane>
       <StylishWindowPane>
